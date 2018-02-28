@@ -1,0 +1,26 @@
+新增一个父类的子类，不必对一个方法做任何修改，实际上，任何依赖父类作为参数的函数或者方法都可以不加修改地正常运行，原因就在于多态。
+多态的好处：当我们需要传入子类时，我们只需要接受父类就可以了，因为这些子类都是父类类型，然后，根据父类类型进行操作即可。
+由于父类类型有这个方法，因此，传入的任意类型，只要是父类的类或者子类，就会自动调用实际类型的这个方法，这就是多态。
+
+当我们新增一种Animal的子类时，只要确保run()方法编写正确，不用管原来的代码是如何调用的。这就是“开闭”原则。
+对扩展开放:允许新增Animal子类;
+对修改封闭:不需要修改Aniaml类型的run_twice()等函数。
+
+class Wine(object):
+    def drink(self):
+        print('go on the better')
+
+class white_spirit(Wine):
+    def drink(self):
+        print('茅台有点酸')
+
+class grape(Wine):
+    def drink(self):
+        print('葡萄酒有点甜')
+
+def drinking(wine):
+    wine.drink()
+
+
+
+
