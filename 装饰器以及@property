@@ -1,0 +1,25 @@
+要增强某个函数的功能，比如在函数调用前后自动打印日志，但又不希望修改这个函数的定义
+这种在代码运行期间动态增加功能的方式，称之为“装饰器”(Decorator)
+本质上，decorator就是一个返回函数的高阶函数。
+
+class Screen(object):
+    @property
+    def width(self):
+        return self._width
+    @width.setter
+    def width(self, value):
+        self._width = value
+    @property
+    def height(self):
+        return self._height
+    @height.setter
+    def height(self, value):
+        self._height = value
+    @property
+    def resolution(self):
+        return self._width * self._height
+给一个Screen对象加上width和height属性，以及一个只读属性resolution。
+
+@property是把一个getter方法变成属性，在前面加上@property，然后@property本身又创建了另一个
+装饰器@xxx.setter,负责把一个setter方法变成属性赋值，于是我们就拥有一个可控的属性操作。
+如果只定义getter方法，不定义setter方法就是一个只读属性。
