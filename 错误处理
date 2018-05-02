@@ -1,0 +1,91 @@
+try:
+    print('try...')
+    r = 10/0
+    print('result:', r)
+except ZeroDivisionError as e:
+    print('except:', e)
+finally:
+    print('finally...')
+print('END')
+
+try:
+    print('try...')
+    r = 10 / int('2')
+    print('result:', r)
+except ValueError as e:
+    print('ValueError:', e)
+except ZeroDivisionError as e:
+    print('ZeroDivisionError:', e)
+else:
+    print('no error!')
+finally:
+    print('finally...')
+print('END')
+
+#except不但捕获该类型的错误，还把其子类也都捕捉
+#try...except可以跨越多层调用，比如函数main()调用foo(),foo()调用bar(),结果bar()出错了，只要main()捕获到了就可以处理
+
+def foo(s):
+    return 10 / int(s)
+
+def bar(s):
+    return foo(s) * 2
+
+def main():
+    try:
+        bar('0')
+    except Exception as e:
+        print('Error:', e)
+    finally:
+        print('finally...')
+
+#记录错误 logging模块可以记录错误信息
+
+import logging
+
+def foo(s):
+    return 10 / int(s)
+
+def bar(s):
+    return foo(s) * 2
+
+def main():
+    try:
+        bar('0')
+    except Exception as e:
+        logging.exception(e)
+
+main()
+print('END')
+
+#自己定义错误的class, 但是尽量使用已有内置的错误类型
+
+class FooError(ValueError):
+    pass
+
+def foo(s):
+    n = int(s)
+    if n == 0:
+        raise FooError('invalid value: %s' % s)
+    return 10 / n
+
+foo（'0')
+
+#err_reraise  打印ValueError后，再通过raise语句抛出，继续往上抛让顶层调用者去处理，捕捉错误目的只是记录以下
+
+def foo(s):
+    n = int(s)
+    if n ==0:
+        raise ValueError('invalid value: %s' % s)
+    return 10 / n
+
+def bar():
+    try:
+        foo('0')
+    except ValueError as e:
+        print('ValueError!')
+        raise
+
+bar()
+
+#raise语句不带参数，就会把当前错误原样抛回
